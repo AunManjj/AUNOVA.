@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aunova — TikTok Shop Growth Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --white: #f5f2ee;
+    --cream: #ede8e0;
+    --accent: #ff3d00;
+    --accent2: #ffb800;
+    --muted: #6b6560;
+    --card: #111010;
+    --border: rgba(255,255,255,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 40px; height: 40px;
+    border: 1px solid rgba(255,61,0,0.5);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 60px;
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: padding 0.3s;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px; font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links {
+    display: flex; gap: 40px; list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px; font-weight: 500; letter-spacing: 0.05em;
+    color: var(--muted); text-decoration: none; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--accent);
+    color: var(--white) !important;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    transition: background 0.2s, transform 0.2s !important;
+  }
+  .nav-cta:hover { background: #e03500 !important; transform: translateY(-1px); color: var(--white) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 140px 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 70% 50%, rgba(255,61,0,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(255,184,0,0.06) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: linear-gradient(var(--white) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--white) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 800px; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,61,0,0.12); border: 1px solid rgba(255,61,0,0.3);
+    color: var(--accent); padding: 8px 16px; border-radius: 100px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-tag::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); animation: pulse 1.5s ease infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 800; line-height: 0.95;
+    letter-spacing: -3px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  h1 .line2 { color: var(--accent); display: block; }
+  .hero-promise {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(255,184,0,0.08);
+    border: 1px solid rgba(255,184,0,0.25);
+    color: var(--accent2);
+    padding: 10px 20px; border-radius: 6px;
+    font-size: 15px; font-weight: 400;
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s 0.15s ease both;
+    letter-spacing: 0.01em;
+  }
+  .hero-promise strong { font-weight: 700; color: #ffd44d; }
+  .hero-sub {
+    font-size: 18px; color: var(--muted); max-width: 520px;
+    margin: 28px 0 48px; line-height: 1.6; font-weight: 300;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-sub strong { color: var(--white); font-weight: 500; }
+  .hero-btns {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--accent); color: var(--white);
+    padding: 18px 40px; border-radius: 6px;
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 40px rgba(255,61,0,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 60px rgba(255,61,0,0.5); }
+  .btn-secondary {
+    background: transparent; color: var(--white);
+    padding: 18px 40px; border-radius: 6px;
+    font-size: 15px; font-weight: 500; text-decoration: none;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); }
+
+  .hero-right {
+    position: absolute; right: 60px; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 16px;
+    animation: fadeLeft 0.8s 0.4s ease both;
+  }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px 28px;
+    min-width: 200px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .stat-card:hover { border-color: rgba(255,61,0,0.3); transform: translateX(-4px); }
+  .stat-num {
+    font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800;
+    color: var(--accent); line-height: 1;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  @keyframes fadeUp { from { opacity:0; transform:translateY(30px) } to { opacity:1; transform:translateY(0) } }
+  @keyframes fadeLeft { from { opacity:0; transform:translateX(30px) } to { opacity:1; transform:translateX(0) } }
+
+  /* MARQUEE */
+  .marquee-section {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    background: rgba(255,255,255,0.02);
+  }
+  .marquee-track {
+    display: flex; gap: 60px; width: max-content;
+    animation: scroll 20s linear infinite;
+  }
+  .marquee-track:hover { animation-play-state: paused; }
+  .marquee-item {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px; font-weight: 600; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--muted);
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 24px;
+  }
+  .marquee-item::after { content: '✦'; color: var(--accent); font-size: 10px; }
+  @keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* SECTIONS */
+  section { padding: 120px 60px; }
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before { content: ''; display: block; width: 32px; height: 1px; background: var(--accent); }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 800; line-height: 1;
+    letter-spacing: -2px; margin-bottom: 20px;
+  }
+  .section-desc { font-size: 17px; color: var(--muted); max-width: 480px; line-height: 1.7; font-weight: 300; }
+
+  /* PROBLEMS */
+  .problems-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+    margin-top: 64px;
+  }
+  .problem-card {
+    background: var(--card); padding: 48px 40px;
+    position: relative; overflow: hidden;
+    transition: background 0.3s;
+  }
+  .problem-card:hover { background: #161414; }
+  .problem-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .problem-card:hover::before { transform: scaleX(1); }
+  .problem-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 80px; font-weight: 800;
+    color: rgba(255,255,255,0.04); line-height: 1;
+    position: absolute; top: 20px; right: 24px;
+  }
+  .problem-icon { font-size: 32px; margin-bottom: 24px; }
+  .problem-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px; font-weight: 700; margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .problem-desc { font-size: 15px; color: var(--muted); line-height: 1.7; font-weight: 300; }
+
+  /* SYSTEM */
+  .system-section { background: linear-gradient(180deg, var(--black) 0%, #0d0c0c 100%); }
+  .steps-container { margin-top: 80px; display: flex; flex-direction: column; gap: 2px; }
+  .step-row {
+    display: grid; grid-template-columns: 80px 1fr 1fr;
+    gap: 0; background: var(--border);
+    border-radius: 0; overflow: hidden;
+    position: relative;
+  }
+  .step-row:first-child { border-radius: 16px 16px 0 0; }
+  .step-row:last-child { border-radius: 0 0 16px 16px; }
+  .step-num {
+    background: var(--card);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+    color: var(--accent); writing-mode: vertical-rl;
+    letter-spacing: 0.1em; text-transform: uppercase; padding: 40px 0;
+    border-right: 1px solid var(--border);
+  }
+  .step-content {
+    background: var(--card); padding: 48px 40px;
+    border-right: 1px solid var(--border);
+  }
+  .step-badge {
+    display: inline-block;
+    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 16px;
+  }
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px; font-weight: 800; margin-bottom: 0; letter-spacing: -0.5px;
+  }
+  .step-points { background: var(--card); padding: 48px 40px; }
+  .step-point {
+    display: flex; align-items: flex-start; gap: 14px;
+    font-size: 15px; color: var(--muted); line-height: 1.5; font-weight: 300;
+    margin-bottom: 20px;
+  }
+  .step-point:last-child { margin-bottom: 0; }
+  .step-point-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0; margin-top: 7px;
+  }
+
+  /* RESULTS */
+  .results-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; margin-top: 64px;
+  }
+  .result-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 40px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: default;
+  }
+  .result-card:hover { border-color: rgba(255,61,0,0.3); transform: translateY(-4px); }
+  .result-logo {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: rgba(255,61,0,0.15); border: 1px solid rgba(255,61,0,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px;
+    color: var(--accent); margin-bottom: 24px;
+  }
+  .result-headline { font-size: 12px; color: var(--accent); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+  .result-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.3px; }
+  .result-desc { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 300; margin-bottom: 28px; }
+  .result-stats { display: flex; flex-wrap: wrap; gap: 12px; }
+  .result-stat {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    padding: 10px 16px; border-radius: 8px;
+  }
+  .result-stat-val { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--white); }
+  .result-stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* COMPARISON */
+  .comparison-section { background: #0a0909; }
+  .compare-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 20px; margin-top: 64px;
+  }
+  .compare-col { border-radius: 16px; overflow: hidden; }
+  .compare-header {
+    padding: 24px 32px;
+    font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .compare-header.them { background: #1a1a1a; color: var(--muted); }
+  .compare-header.us { background: var(--accent); color: var(--white); }
+  .compare-items { display: flex; flex-direction: column; }
+  .compare-item {
+    padding: 20px 32px;
+    font-size: 15px; line-height: 1.5; font-weight: 300;
+    display: flex; align-items: flex-start; gap: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-item:last-child { border-bottom: none; }
+  .compare-item.them { background: var(--card); color: var(--muted); }
+  .compare-item.us { background: rgba(255,61,0,0.06); color: var(--white); }
+  .compare-item .icon { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
+
+  /* CTA */
+  .cta-section {
+    text-align: center;
+    background: linear-gradient(135deg, #0d0c0c 0%, var(--black) 100%);
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,61,0,0.1) 0%, transparent 70%);
+  }
+  .cta-inner { position: relative; z-index: 2; }
+  .cta-section h2 { letter-spacing: -3px; }
+  .cta-section .section-desc { margin: 20px auto 48px; text-align: center; }
+  .cta-features {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 16px; margin-top: 48px;
+  }
+  .cta-feat {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; color: var(--muted); font-weight: 300;
+  }
+  .cta-feat::before { content: '✓'; color: var(--accent); font-weight: 700; }
+
+  /* FAQ */
+  .faq-list { margin-top: 64px; max-width: 800px; }
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .faq-q {
+    padding: 28px 0;
+    font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 600;
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; gap: 20px;
+    transition: color 0.2s;
+  }
+  .faq-q:hover { color: var(--accent); }
+  .faq-icon {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0; transition: transform 0.3s, background 0.3s;
+    color: var(--muted);
+  }
+  .faq-item.open .faq-icon { transform: rotate(45deg); background: rgba(255,61,0,0.1); color: var(--accent); border-color: rgba(255,61,0,0.3); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    font-size: 15px; color: var(--muted); line-height: 1.8; font-weight: 300;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+  }
+  .faq-item.open .faq-a { max-height: 300px; padding-bottom: 28px; }
+
+  /* FOOTER */
+  footer {
+    padding: 48px 60px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; }
+  .footer-logo span { color: var(--accent); }
+  .footer-copy { font-size: 13px; color: var(--muted); }
+
+  /* SCROLL ANIMATIONS */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .hero { padding: 120px 24px 60px; }
+    .hero-right { display: none; }
+    .problems-grid, .results-grid, .compare-grid { grid-template-columns: 1fr; }
+    .step-row { grid-template-columns: 1fr; }
+    .step-num { writing-mode: horizontal-tb; padding: 16px 24px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">AUNOVA<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#problem">The Problem</a></li>
+    <li><a href="#system">Our System</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#cta" class="nav-cta">Book a Call</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Creator-Led Commerce Agency</div>
+    <h1>
+      We Turn Creators<br>
+      <span class="line2">Into Your Best</span><br>
+      Sales Channel
+    </h1>
+    <div class="hero-promise">
+      Generate <strong>$100K in Revenue</strong> — in 100 Days or Less
+    </div>
+    <p class="hero-sub">
+      Aunova connects growing brands with <strong>performance-driven creators</strong> who don't just post — they convert browsers into buyers at scale.
+    </p>
+    <div class="hero-btns">
+      <a href="#cta" class="btn-primary">Get Your Free Growth Plan</a>
+      <a href="#results" class="btn-secondary">See What We've Built →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-card">
+      <div class="stat-num">$80M+</div>
+      <div class="stat-label">Revenue Driven</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">800+</div>
+      <div class="stat-label">Active Creators</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">40+</div>
+      <div class="stat-label">Brands Grown</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">90 Days</div>
+      <div class="stat-label">Avg. Time to Scale</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item">$80M+ Revenue Driven</span>
+    <span class="marquee-item">800+ Active Creators</span>
+    <span class="marquee-item">40+ Brands Grown</span>
+    <span class="marquee-item">90-Day Scale Promise</span>
+    <span class="marquee-item">Creator Commerce Experts</span>
+    <span class="marquee-item">Performance-First Strategy</span>
+    <span class="marquee-item">Zero Vanity Metrics</span>
+    <span class="marquee-item">$80M+ Revenue Driven</span>
+    <span class="marquee-item">800+ Active Creators</span>
+    <span class="marquee-item">40+ Brands Grown</span>
+    <span class="marquee-item">90-Day Scale Promise</span>
+    <span class="marquee-item">Creator Commerce Experts</span>
+    <span class="marquee-item">Performance-First Strategy</span>
+    <span class="marquee-item">Zero Vanity Metrics</span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="section-label">The Problem</div>
+  <h2>Where Most Brands Hit a Wall</h2>
+  <p class="section-desc">Scaling creator commerce isn't complicated — but most brands are solving the wrong problems with the wrong partners.</p>
+
+  <div class="problems-grid">
+    <div class="problem-card reveal">
+      <div class="problem-num">01</div>
+      <div class="problem-icon">🎭</div>
+      <div class="problem-title">Creators Who Post But Don't Sell</div>
+      <p class="problem-desc">Follower counts look impressive, but the content lacks structure. No clear hook, no narrative arc, no reason for a viewer to stop scrolling and actually buy.</p>
+    </div>
+    <div class="problem-card reveal reveal-delay-1">
+      <div class="problem-num">02</div>
+      <div class="problem-icon">🔁</div>
+      <div class="problem-title">One Hit, Then Nothing</div>
+      <p class="problem-desc">A single viral moment feels like a breakthrough — until the algorithm moves on. Without a repeatable content engine, growth stalls the moment momentum fades.</p>
+    </div>
+    <div class="problem-card reveal reveal-delay-2">
+      <div class="problem-num">03</div>
+      <div class="problem-icon">🧩</div>
+      <div class="problem-title">Strategy, Creators & Ads Living in Silos</div>
+      <p class="problem-desc">When creative direction, creator management, and paid amplification aren't speaking the same language, you're leaving serious revenue on the table every single month.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SYSTEM -->
+<section id="system" class="system-section">
+  <div class="section-label">How We Work</div>
+  <h2>The Aunova Growth Framework</h2>
+  <p class="section-desc">A three-phase engine built to take your brand from unknown to unmissable — with data guiding every decision.</p>
+
+  <div class="steps-container">
+    <div class="step-row reveal">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-badge">DISCOVER</div>
+        <div class="step-title">Deep Market Intelligence</div>
+      </div>
+      <div class="step-points">
+        <div class="step-point"><div class="step-point-dot"></div>Audit your category to find the content angles that are already winning</div>
+        <div class="step-point"><div class="step-point-dot"></div>Map your audience's language, pain points, and buying triggers</div>
+        <div class="step-point"><div class="step-point-dot"></div>Build a custom creative brief your creators can execute immediately</div>
+      </div>
+    </div>
+    <div class="step-row reveal reveal-delay-1">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-badge">ACTIVATE</div>
+        <div class="step-title">Precision Creator Deployment</div>
+      </div>
+      <div class="step-points">
+        <div class="step-point"><div class="step-point-dot"></div>Hand-match your brand with 15–40 creators from our vetted network</div>
+        <div class="step-point"><div class="step-point-dot"></div>Every creator selected for conversion track record, not just audience size</div>
+        <div class="step-point"><div class="step-point-dot"></div>Full onboarding, briefing, and content review handled end-to-end</div>
+      </div>
+    </div>
+    <div class="step-row reveal reveal-delay-2">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-badge">COMPOUND</div>
+        <div class="step-title">Scale What Works, Cut What Doesn't</div>
+      </div>
+      <div class="step-points">
+        <div class="step-point"><div class="step-point-dot"></div>Weekly performance reviews across creative, GMV, and creator output</div>
+        <div class="step-point"><div class="step-point-dot"></div>Winning content gets amplified through paid — fast</div>
+        <div class="step-point"><div class="step-point-dot"></div>Continuous iteration so your growth compounds month over month</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="section-label">Client Wins</div>
+  <h2>Numbers That Speak for Themselves</h2>
+  <p class="section-desc">A snapshot of what happens when the right creators meet the right strategy — and neither blinks.</p>
+
+  <div class="results-grid">
+    <div class="result-card reveal">
+      <div class="result-logo">N</div>
+      <div class="result-headline">Zero to Category Leader in 60 Days</div>
+      <div class="result-title">NovaSkin</div>
+      <p class="result-desc">A skincare brand with strong offline presence but zero creator traction. We rebuilt their content identity from scratch, matching them with skincare-specific creators whose audiences were already primed to buy.</p>
+      <div class="result-stats">
+        <div class="result-stat">
+          <div class="result-stat-val">$4.2M</div>
+          <div class="result-stat-label">Revenue Generated</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-val">18x</div>
+          <div class="result-stat-label">Growth Multiplier</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-val">#2</div>
+          <div class="result-stat-label">Skincare Ranking</div>
+        </div>
+      </div>
+    </div>
+    <div class="result-card reveal reveal-delay-1">
+      <div class="result-logo">V</div>
+      <div class="result-headline">$12K to $1.8M/Month in 90 Days</div>
+      <div class="result-title">Velo Active</div>
+      <p class="result-desc">A fitness supplement brand stuck on paid ads with shrinking margins. We pivoted them to a creator-first model, activating 30 performance creators whose authentic storytelling did what ads never could.</p>
+      <div class="result-stats">
+        <div class="result-stat">
+          <div class="result-stat-val">$9.8M</div>
+          <div class="result-stat-label">Total Revenue</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-val">#4</div>
+          <div class="result-stat-label">Fitness Category</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-val">142x</div>
+          <div class="result-stat-label">Revenue Increase</div>
+        </div>
+      </div>
+    </div>
+    <div class="result-card reveal reveal-delay-2">
+      <div class="result-logo">L</div>
+      <div class="result-headline">Plateaued at $15K — Now at $380K</div>
+      <div class="result-title">Lumé Home</div>
+      <p class="result-desc">A home goods brand with good products but zero content differentiation. We identified three untapped content angles, deployed 22 lifestyle creators, and watched their monthly revenue multiply 25x inside 4 months.</p>
+      <div class="result-stats">
+        <div class="result-stat">
+          <div class="result-stat-val">$1.9M</div>
+          <div class="result-stat-label">In 4 Months</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-val">25x</div>
+          <div class="result-stat-label">Revenue Growth</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="comparison-section">
+  <div class="section-label">The Aunova Difference</div>
+  <h2>Not Just Another Agency</h2>
+  <p class="section-desc">Most agencies sell you a retainer. We sell you outcomes — and we build the machine to deliver them.</p>
+
+  <div class="compare-grid reveal">
+    <div class="compare-col">
+      <div class="compare-header them">❌ The Typical Agency</div>
+      <div class="compare-items">
+        <div class="compare-item them"><span class="icon">✗</span>Send products to whoever replies fastest, regardless of fit or track record</div>
+        <div class="compare-item them"><span class="icon">✗</span>Report on impressions and reach — metrics that don't move your bottom line</div>
+        <div class="compare-item them"><span class="icon">✗</span>Siloed teams where creative, media buying, and ops never talk to each other</div>
+        <div class="compare-item them"><span class="icon">✗</span>Rotate junior staff through your account every quarter</div>
+      </div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-header us">✓ Aunova</div>
+      <div class="compare-items">
+        <div class="compare-item us"><span class="icon">✓</span>Every creator hand-selected from our 800+ network based on proven sales data</div>
+        <div class="compare-item us"><span class="icon">✓</span>We measure one thing: revenue. Every decision traces back to GMV impact</div>
+        <div class="compare-item us"><span class="icon">✓</span>Integrated team where strategy, creators, and paid work as a single unit</div>
+        <div class="compare-item us"><span class="icon">✓</span>Senior operators run your account from day one — no handoffs, no juniors</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="cta-section">
+  <div class="cta-inner">
+    <div class="section-label" style="justify-content:center">Let's Talk</div>
+    <h2>Your Next Revenue<br>Channel is Waiting</h2>
+    <p class="section-desc">Book a free 30-minute call. We'll show you exactly what's possible for your brand — no fluff, no pressure.</p>
+    <a href="#" class="btn-primary" style="font-size:16px;padding:20px 52px">Claim Your Free Growth Call →</a>
+    <div class="cta-features">
+      <div class="cta-feat">Full review of your current creator presence</div>
+      <div class="cta-feat">Category & competitor landscape breakdown</div>
+      <div class="cta-feat">Identification of your top product opportunities</div>
+      <div class="cta-feat">A custom 90-day growth roadmap</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-label">FAQ</div>
+  <h2>Questions We Hear Often</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q">What kind of brands does Aunova work with? <span class="faq-icon">+</span></div>
+      <div class="faq-a">We work best with product brands that already have evidence of demand — whether that's through their own store, Amazon, or retail. You don't need an existing creator presence, but you do need a product people genuinely want and margins that can support a performance-based model.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How is creator commerce different from influencer marketing? <span class="faq-icon">+</span></div>
+      <div class="faq-a">Traditional influencer marketing trades reach for brand awareness. Creator commerce is built entirely around conversion. Every creator we select, every piece of content we brief, and every dollar we allocate is tied directly to measurable revenue — not impressions or engagement rates.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">We're already doing creator content but it's not working — can you help? <span class="faq-icon">+</span></div>
+      <div class="faq-a">This is exactly where Aunova excels. Stalled growth almost always comes down to one of three things: wrong creators, weak content briefs, or no amplification strategy. We diagnose which is true for your brand on the intro call and show you what a fix actually looks like.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">When can we expect to see meaningful traction? <span class="faq-icon">+</span></div>
+      <div class="faq-a">The first batch of content typically goes live within two to three weeks of onboarding. Early revenue signals usually appear within the first month. By month two, you should have enough performance data to know exactly which creators and angles to double down on.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How involved do we need to be day-to-day? <span class="faq-icon">+</span></div>
+      <div class="faq-a">Minimal. You'll review and approve content before it goes live, and we'll have a weekly sync to walk through performance. Everything else — creator outreach, briefing, logistics, and optimization — is handled entirely by our team.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What makes you confident you can deliver? <span class="faq-icon">+</span></div>
+      <div class="faq-a">Every brand we've taken on has seen meaningful revenue growth within 90 days. That track record comes from a rigorous qualification process — we only take on brands where we genuinely believe we can win. If that's not the case for your brand, we'll tell you on the first call.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">AUNOVA<span>.</span></div>
+  <div class="footer-copy">© 2025 Aunova. All rights reserved.</div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+  document.querySelectorAll('a, button, .faq-q').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; });
+    el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; });
+  });
+
+  // FAQ
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Nav shrink
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.padding = window.scrollY > 60 ? '16px 60px' : '24px 60px';
+  });
+</script>
+</body>
+</html>
