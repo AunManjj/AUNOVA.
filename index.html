@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aunova — TikTok Shop Growth Agency</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<!-- FAVICON ✓ -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg width='512' height='512' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'><rect width='80' height='80' rx='18' fill='%23080808'/><circle cx='40' cy='40' r='24' fill='none' stroke='rgba(255,255,255,0.07)' stroke-width='1.5'/><ellipse cx='40' cy='40' rx='24' ry='9.5' fill='none' stroke='rgba(255,61,0,0.5)' stroke-width='2' transform='rotate(-32 40 40)'/><text x='40' y='48' font-family='Arial Black,sans-serif' font-size='26' font-weight='800' fill='%23ff3d00' text-anchor='middle'>A</text><circle cx='59' cy='19' r='3.5' fill='%23ffb800'/></svg>">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
@@ -20,9 +23,7 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
-
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--black);
@@ -34,48 +35,36 @@
   /* CUSTOM CURSOR */
   .cursor {
     width: 12px; height: 12px;
-    background: var(--accent);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
+    background: var(--accent); border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9999;
     transform: translate(-50%, -50%);
     transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
     mix-blend-mode: difference;
   }
   .cursor-ring {
     width: 40px; height: 40px;
-    border: 1px solid rgba(255,61,0,0.5);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9998;
+    border: 1px solid rgba(255,61,0,0.5); border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9998;
     transform: translate(-50%, -50%);
     transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+  }
+  @media (hover: none) {
+    .cursor, .cursor-ring { display: none; }
+    body { cursor: auto; }
   }
 
   /* NAV */
   nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 100;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 24px 60px;
-    background: rgba(8,8,8,0.85);
+    padding: 20px 60px;
+    background: rgba(8,8,8,0.92);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
     transition: padding 0.3s;
   }
-  .nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-size: 22px; font-weight: 800;
-    letter-spacing: -0.5px;
-    color: var(--white);
-    text-decoration: none;
-  }
-  .nav-logo span { color: var(--accent); }
-  .nav-links {
-    display: flex; gap: 40px; list-style: none;
-  }
+  .nav-logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
   .nav-links a {
     font-size: 13px; font-weight: 500; letter-spacing: 0.05em;
     color: var(--muted); text-decoration: none; text-transform: uppercase;
@@ -83,25 +72,51 @@
   }
   .nav-links a:hover { color: var(--white); }
   .nav-cta {
-    background: var(--accent);
-    color: var(--white) !important;
-    padding: 12px 24px;
-    border-radius: 4px;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.08em !important;
+    background: var(--accent) !important; color: var(--white) !important;
+    padding: 12px 24px; border-radius: 4px;
+    font-size: 13px !important; font-weight: 600 !important;
+    text-transform: uppercase !important; letter-spacing: 0.08em !important;
     transition: background 0.2s, transform 0.2s !important;
   }
-  .nav-cta:hover { background: #e03500 !important; transform: translateY(-1px); color: var(--white) !important; }
+  .nav-cta:hover { background: #e03500 !important; transform: translateY(-1px); }
+
+  /* HAMBURGER */
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px; z-index: 200;
+  }
+  .nav-hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--white); border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* MOBILE MENU */
+  .mobile-menu {
+    display: none; position: fixed; inset: 0; top: 0;
+    background: rgba(8,8,8,0.98); backdrop-filter: blur(20px);
+    z-index: 150; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .mobile-menu.open { opacity: 1; pointer-events: all; }
+  .mobile-menu a {
+    font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800;
+    color: var(--muted); text-decoration: none; letter-spacing: -0.5px;
+    transition: color 0.2s; padding: 12px 0;
+  }
+  .mobile-menu a:hover { color: var(--white); }
+  .mobile-menu .mobile-cta {
+    margin-top: 16px; background: var(--accent); color: var(--white) !important;
+    padding: 16px 40px; border-radius: 6px; font-size: 15px !important; font-weight: 700;
+  }
 
   /* HERO */
   .hero {
-    min-height: 100vh;
-    display: flex; align-items: center;
-    padding: 140px 60px 80px;
-    position: relative;
-    overflow: hidden;
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 140px 60px 80px; position: relative; overflow: hidden;
   }
   .hero-bg {
     position: absolute; inset: 0;
@@ -120,33 +135,26 @@
     background: rgba(255,61,0,0.12); border: 1px solid rgba(255,61,0,0.3);
     color: var(--accent); padding: 8px 16px; border-radius: 100px;
     font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-    margin-bottom: 32px;
-    animation: fadeUp 0.8s ease both;
+    margin-bottom: 32px; animation: fadeUp 0.8s ease both;
   }
   .hero-tag::before {
     content: ''; width: 6px; height: 6px; border-radius: 50%;
     background: var(--accent); animation: pulse 1.5s ease infinite;
   }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
-
   h1 {
     font-family: 'Syne', sans-serif;
-    font-size: clamp(52px, 7vw, 96px);
-    font-weight: 800; line-height: 0.95;
-    letter-spacing: -3px;
+    font-size: clamp(44px, 7vw, 96px);
+    font-weight: 800; line-height: 0.95; letter-spacing: -3px;
     animation: fadeUp 0.8s 0.1s ease both;
   }
   h1 .line2 { color: var(--accent); display: block; }
   .hero-promise {
     display: inline-flex; align-items: center; gap: 10px;
-    background: rgba(255,184,0,0.08);
-    border: 1px solid rgba(255,184,0,0.25);
-    color: var(--accent2);
-    padding: 10px 20px; border-radius: 6px;
-    font-size: 15px; font-weight: 400;
-    margin-bottom: 24px;
-    animation: fadeUp 0.8s 0.15s ease both;
-    letter-spacing: 0.01em;
+    background: rgba(255,184,0,0.08); border: 1px solid rgba(255,184,0,0.25);
+    color: var(--accent2); padding: 10px 20px; border-radius: 6px;
+    font-size: 15px; font-weight: 400; margin-bottom: 24px;
+    animation: fadeUp 0.8s 0.15s ease both; letter-spacing: 0.01em;
   }
   .hero-promise strong { font-weight: 700; color: #ffd44d; }
   .hero-sub {
@@ -155,15 +163,11 @@
     animation: fadeUp 0.8s 0.2s ease both;
   }
   .hero-sub strong { color: var(--white); font-weight: 500; }
-  .hero-btns {
-    display: flex; gap: 16px; flex-wrap: wrap;
-    animation: fadeUp 0.8s 0.3s ease both;
-  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeUp 0.8s 0.3s ease both; }
   .btn-primary {
     background: var(--accent); color: var(--white);
     padding: 18px 40px; border-radius: 6px;
-    font-size: 15px; font-weight: 600; text-decoration: none;
-    letter-spacing: 0.02em;
+    font-size: 15px; font-weight: 600; text-decoration: none; letter-spacing: 0.02em;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 0 40px rgba(255,61,0,0.3);
   }
@@ -172,52 +176,43 @@
     background: transparent; color: var(--white);
     padding: 18px 40px; border-radius: 6px;
     font-size: 15px; font-weight: 500; text-decoration: none;
-    border: 1px solid var(--border);
-    transition: border-color 0.2s, background 0.2s;
+    border: 1px solid var(--border); transition: border-color 0.2s, background 0.2s;
   }
   .btn-secondary:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); }
-
   .hero-right {
-    position: absolute; right: 60px; top: 50%;
-    transform: translateY(-50%);
+    position: absolute; right: 60px; top: 50%; transform: translateY(-50%);
     display: flex; flex-direction: column; gap: 16px;
     animation: fadeLeft 0.8s 0.4s ease both;
   }
   .stat-card {
     background: var(--card); border: 1px solid var(--border);
-    border-radius: 12px; padding: 20px 28px;
-    min-width: 200px;
+    border-radius: 12px; padding: 20px 28px; min-width: 200px;
     transition: border-color 0.3s, transform 0.3s;
   }
   .stat-card:hover { border-color: rgba(255,61,0,0.3); transform: translateX(-4px); }
-  .stat-num {
-    font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800;
-    color: var(--accent); line-height: 1;
-  }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; color: var(--accent); line-height: 1; }
   .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
-
-  @keyframes fadeUp { from { opacity:0; transform:translateY(30px) } to { opacity:1; transform:translateY(0) } }
-  @keyframes fadeLeft { from { opacity:0; transform:translateX(30px) } to { opacity:1; transform:translateX(0) } }
+  .hero-stats-mobile {
+    display: none; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-top: 48px; animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .hero-stats-mobile .stat-card { min-width: unset; padding: 16px 20px; }
+  .hero-stats-mobile .stat-num { font-size: 28px; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeLeft { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
 
   /* MARQUEE */
   .marquee-section {
-    padding: 40px 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    overflow: hidden;
+    padding: 32px 0; border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border); overflow: hidden;
     background: rgba(255,255,255,0.02);
   }
-  .marquee-track {
-    display: flex; gap: 60px; width: max-content;
-    animation: scroll 20s linear infinite;
-  }
+  .marquee-track { display: flex; gap: 60px; width: max-content; animation: scroll 20s linear infinite; }
   .marquee-track:hover { animation-play-state: paused; }
   .marquee-item {
-    font-family: 'Syne', sans-serif;
-    font-size: 14px; font-weight: 600; letter-spacing: 0.15em;
-    text-transform: uppercase; color: var(--muted);
-    white-space: nowrap;
-    display: flex; align-items: center; gap: 24px;
+    font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+    white-space: nowrap; display: flex; align-items: center; gap: 24px;
   }
   .marquee-item::after { content: '✦'; color: var(--accent); font-size: 10px; }
   @keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
@@ -226,16 +221,13 @@
   section { padding: 120px 60px; }
   .section-label {
     font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--accent);
-    margin-bottom: 20px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 20px;
     display: flex; align-items: center; gap: 12px;
   }
   .section-label::before { content: ''; display: block; width: 32px; height: 1px; background: var(--accent); }
   h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(36px, 5vw, 64px);
-    font-weight: 800; line-height: 1;
-    letter-spacing: -2px; margin-bottom: 20px;
+    font-family: 'Syne', sans-serif; font-size: clamp(32px, 5vw, 64px);
+    font-weight: 800; line-height: 1; letter-spacing: -2px; margin-bottom: 20px;
   }
   .section-desc { font-size: 17px; color: var(--muted); max-width: 480px; line-height: 1.7; font-weight: 300; }
 
@@ -243,36 +235,25 @@
   .problems-grid {
     display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 1px; background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 16px; overflow: hidden;
-    margin-top: 64px;
+    border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 64px;
   }
   .problem-card {
     background: var(--card); padding: 48px 40px;
-    position: relative; overflow: hidden;
-    transition: background 0.3s;
+    position: relative; overflow: hidden; transition: background 0.3s;
   }
   .problem-card:hover { background: #161414; }
   .problem-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
     background: linear-gradient(90deg, var(--accent), transparent);
-    transform: scaleX(0); transform-origin: left;
-    transition: transform 0.4s ease;
+    transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
   }
   .problem-card:hover::before { transform: scaleX(1); }
   .problem-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 80px; font-weight: 800;
-    color: rgba(255,255,255,0.04); line-height: 1;
-    position: absolute; top: 20px; right: 24px;
+    font-family: 'Syne', sans-serif; font-size: 80px; font-weight: 800;
+    color: rgba(255,255,255,0.04); line-height: 1; position: absolute; top: 20px; right: 24px;
   }
   .problem-icon { font-size: 32px; margin-bottom: 24px; }
-  .problem-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 22px; font-weight: 700; margin-bottom: 14px;
-    line-height: 1.2;
-  }
+  .problem-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 14px; line-height: 1.2; }
   .problem-desc { font-size: 15px; color: var(--muted); line-height: 1.7; font-weight: 300; }
 
   /* SYSTEM */
@@ -280,57 +261,37 @@
   .steps-container { margin-top: 80px; display: flex; flex-direction: column; gap: 2px; }
   .step-row {
     display: grid; grid-template-columns: 80px 1fr 1fr;
-    gap: 0; background: var(--border);
-    border-radius: 0; overflow: hidden;
-    position: relative;
+    gap: 0; background: var(--border); border-radius: 0; overflow: hidden; position: relative;
   }
   .step-row:first-child { border-radius: 16px 16px 0 0; }
   .step-row:last-child { border-radius: 0 0 16px 16px; }
   .step-num {
-    background: var(--card);
-    display: flex; align-items: center; justify-content: center;
+    background: var(--card); display: flex; align-items: center; justify-content: center;
     font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
     color: var(--accent); writing-mode: vertical-rl;
     letter-spacing: 0.1em; text-transform: uppercase; padding: 40px 0;
     border-right: 1px solid var(--border);
   }
-  .step-content {
-    background: var(--card); padding: 48px 40px;
-    border-right: 1px solid var(--border);
-  }
+  .step-content { background: var(--card); padding: 48px 40px; border-right: 1px solid var(--border); }
   .step-badge {
-    display: inline-block;
-    font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
-    letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 16px;
+    display: inline-block; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
   }
-  .step-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 28px; font-weight: 800; margin-bottom: 0; letter-spacing: -0.5px;
-  }
+  .step-title { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 0; letter-spacing: -0.5px; }
   .step-points { background: var(--card); padding: 48px 40px; }
   .step-point {
     display: flex; align-items: flex-start; gap: 14px;
-    font-size: 15px; color: var(--muted); line-height: 1.5; font-weight: 300;
-    margin-bottom: 20px;
+    font-size: 15px; color: var(--muted); line-height: 1.5; font-weight: 300; margin-bottom: 20px;
   }
   .step-point:last-child { margin-bottom: 0; }
-  .step-point-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--accent); flex-shrink: 0; margin-top: 7px;
-  }
+  .step-point-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 7px; }
 
   /* RESULTS */
-  .results-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 20px; margin-top: 64px;
-  }
+  .results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 64px; }
   .result-card {
     background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 40px;
-    position: relative; overflow: hidden;
-    transition: border-color 0.3s, transform 0.3s;
-    cursor: default;
+    border-radius: 16px; padding: 40px; position: relative; overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s; cursor: default;
   }
   .result-card:hover { border-color: rgba(255,61,0,0.3); transform: translateY(-4px); }
   .result-logo {
@@ -344,34 +305,21 @@
   .result-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.3px; }
   .result-desc { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 300; margin-bottom: 28px; }
   .result-stats { display: flex; flex-wrap: wrap; gap: 12px; }
-  .result-stat {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-    padding: 10px 16px; border-radius: 8px;
-  }
+  .result-stat { background: rgba(255,255,255,0.04); border: 1px solid var(--border); padding: 10px 16px; border-radius: 8px; }
   .result-stat-val { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--white); }
   .result-stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
   /* COMPARISON */
   .comparison-section { background: #0a0909; }
-  .compare-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 20px; margin-top: 64px;
-  }
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 64px; }
   .compare-col { border-radius: 16px; overflow: hidden; }
-  .compare-header {
-    padding: 24px 32px;
-    font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700;
-    letter-spacing: 0.05em;
-  }
+  .compare-header { padding: 24px 32px; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.05em; }
   .compare-header.them { background: #1a1a1a; color: var(--muted); }
   .compare-header.us { background: var(--accent); color: var(--white); }
   .compare-items { display: flex; flex-direction: column; }
   .compare-item {
-    padding: 20px 32px;
-    font-size: 15px; line-height: 1.5; font-weight: 300;
-    display: flex; align-items: flex-start; gap: 14px;
-    border-bottom: 1px solid var(--border);
+    padding: 20px 32px; font-size: 15px; line-height: 1.5; font-weight: 300;
+    display: flex; align-items: flex-start; gap: 14px; border-bottom: 1px solid var(--border);
   }
   .compare-item:last-child { border-bottom: none; }
   .compare-item.them { background: var(--card); color: var(--muted); }
@@ -385,43 +333,118 @@
     position: relative; overflow: hidden;
   }
   .cta-section::before {
-    content: '';
-    position: absolute; inset: 0;
+    content: ''; position: absolute; inset: 0;
     background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,61,0,0.1) 0%, transparent 70%);
   }
   .cta-inner { position: relative; z-index: 2; }
   .cta-section h2 { letter-spacing: -3px; }
   .cta-section .section-desc { margin: 20px auto 48px; text-align: center; }
+
+  /* BOOKING FORM */
+  .booking-form {
+    max-width: 580px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block; margin-bottom: 8px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .form-input,
+  .form-select,
+  .form-textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 14px 16px;
+    color: var(--white);
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .form-input::placeholder,
+  .form-textarea::placeholder { color: rgba(255,255,255,0.2); }
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    border-color: rgba(255,61,0,0.6);
+    background: rgba(255,61,0,0.04);
+  }
+  .form-select {
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6560' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-color: rgba(255,255,255,0.04);
+    padding-right: 40px;
+  }
+  .form-select option { background: #1a1a1a; color: var(--white); }
+  .form-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+  .form-submit {
+    width: 100%; margin-top: 24px;
+    background: var(--accent); color: var(--white);
+    padding: 18px 40px; border: none; border-radius: 6px;
+    font-size: 16px; font-weight: 700;
+    font-family: 'Syne', sans-serif;
+    letter-spacing: 0.02em; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 40px rgba(255,61,0,0.3);
+  }
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 0 60px rgba(255,61,0,0.5); }
+  .form-submit:active { transform: translateY(0); }
+
+  /* SUCCESS STATE */
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 52px 36px;
+    background: rgba(255,61,0,0.05);
+    border: 1px solid rgba(255,61,0,0.2);
+    border-radius: 16px;
+    max-width: 580px;
+    margin: 0 auto;
+  }
+  .form-success.show { display: block; }
+  .form-success-icon { font-size: 52px; margin-bottom: 20px; }
+  .form-success h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px; font-weight: 800;
+    letter-spacing: -1px; margin-bottom: 14px;
+  }
+  .form-success p { font-size: 16px; color: var(--muted); line-height: 1.7; }
+
   .cta-features {
     display: flex; flex-wrap: wrap; justify-content: center;
     gap: 16px; margin-top: 48px;
   }
-  .cta-feat {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 14px; color: var(--muted); font-weight: 300;
-  }
+  .cta-feat { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); font-weight: 300; }
   .cta-feat::before { content: '✓'; color: var(--accent); font-weight: 700; }
 
   /* FAQ */
   .faq-list { margin-top: 64px; max-width: 800px; }
-  .faq-item {
-    border-bottom: 1px solid var(--border);
-    overflow: hidden;
-  }
+  .faq-item { border-bottom: 1px solid var(--border); overflow: hidden; }
   .faq-q {
-    padding: 28px 0;
-    font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 600;
+    padding: 28px 0; font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 600;
     display: flex; justify-content: space-between; align-items: center;
-    cursor: pointer; gap: 20px;
-    transition: color 0.2s;
+    cursor: pointer; gap: 20px; transition: color 0.2s;
   }
   .faq-q:hover { color: var(--accent); }
   .faq-icon {
     width: 32px; height: 32px; border-radius: 50%;
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px; flex-shrink: 0; transition: transform 0.3s, background 0.3s;
-    color: var(--muted);
+    border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0; transition: transform 0.3s, background 0.3s; color: var(--muted);
   }
   .faq-item.open .faq-icon { transform: rotate(45deg); background: rgba(255,61,0,0.1); color: var(--accent); border-color: rgba(255,61,0,0.3); }
   .faq-a {
@@ -433,34 +456,66 @@
 
   /* FOOTER */
   footer {
-    padding: 48px 60px;
-    border-top: 1px solid var(--border);
+    padding: 48px 60px; border-top: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
   }
-  .footer-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; }
-  .footer-logo span { color: var(--accent); }
+  .footer-logo-wrap { display: flex; align-items: center; }
   .footer-copy { font-size: 13px; color: var(--muted); }
 
   /* SCROLL ANIMATIONS */
-  .reveal {
-    opacity: 0; transform: translateY(40px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
   .reveal-delay-1 { transition-delay: 0.1s; }
   .reveal-delay-2 { transition-delay: 0.2s; }
   .reveal-delay-3 { transition-delay: 0.3s; }
 
-  @media (max-width: 900px) {
-    nav { padding: 20px 24px; }
-    .nav-links { display: none; }
-    section { padding: 80px 24px; }
-    .hero { padding: 120px 24px 60px; }
+  /* RESPONSIVE TABLET */
+  @media (max-width: 1100px) {
     .hero-right { display: none; }
-    .problems-grid, .results-grid, .compare-grid { grid-template-columns: 1fr; }
+    .hero-stats-mobile { display: grid; }
+  }
+
+  /* RESPONSIVE MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+    section { padding: 72px 24px; }
+    .hero { padding: 110px 24px 60px; min-height: auto; }
+    h1 { letter-spacing: -2px; }
+    .hero-promise { font-size: 14px; padding: 10px 16px; }
+    .hero-sub { font-size: 16px; margin: 20px 0 36px; }
+    .hero-btns { flex-direction: column; }
+    .btn-primary, .btn-secondary { text-align: center; padding: 16px 28px; width: 100%; }
+    .hero-stats-mobile { display: grid; }
+    .problems-grid { grid-template-columns: 1fr; }
+    .problem-card { padding: 36px 28px; }
     .step-row { grid-template-columns: 1fr; }
-    .step-num { writing-mode: horizontal-tb; padding: 16px 24px; }
-    footer { flex-direction: column; gap: 16px; text-align: center; }
+    .step-num { writing-mode: horizontal-tb; padding: 16px 24px; border-right: none; border-bottom: 1px solid var(--border); font-size: 11px; }
+    .step-content { padding: 28px 24px; border-right: none; border-bottom: 1px solid var(--border); }
+    .step-points { padding: 28px 24px; }
+    .step-title { font-size: 22px; }
+    .results-grid { grid-template-columns: 1fr; }
+    .result-card { padding: 28px 24px; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .compare-item { padding: 16px 20px; font-size: 14px; }
+    .compare-header { padding: 18px 20px; }
+    .cta-section h2 { letter-spacing: -1.5px; }
+    .cta-features { flex-direction: column; align-items: flex-start; padding: 0 4px; }
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    .faq-q { font-size: 16px; padding: 22px 0; }
+    .faq-list { margin-top: 48px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; padding: 36px 24px; }
+    .footer-logo-wrap { justify-content: center; }
+    h2 { letter-spacing: -1px; }
+    .section-desc { font-size: 15px; }
+  }
+
+  @media (max-width: 400px) {
+    .hero-stats-mobile { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .hero-stats-mobile .stat-num { font-size: 24px; }
+    .hero-stats-mobile .stat-label { font-size: 10px; }
   }
 </style>
 </head>
@@ -469,9 +524,30 @@
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#problem" onclick="closeMobile()">The Problem</a>
+  <a href="#system" onclick="closeMobile()">Our System</a>
+  <a href="#results" onclick="closeMobile()">Results</a>
+  <a href="#faq" onclick="closeMobile()">FAQ</a>
+  <a href="#cta" class="mobile-cta" onclick="closeMobile()">Book a Call</a>
+</div>
+
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">AUNOVA<span>.</span></a>
+  <a href="#" class="nav-logo">
+    <svg width="190" height="36" viewBox="0 0 300 58">
+      <circle cx="23" cy="26" r="18" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+      <ellipse cx="23" cy="26" rx="18" ry="7" fill="none" stroke="rgba(255,61,0,0.45)" stroke-width="1.5" transform="rotate(-32 23 26)"/>
+      <circle cx="23" cy="26" r="4.5" fill="#ff3d00"/>
+      <circle cx="37" cy="13" r="2.8" fill="#ffb800"/>
+      <text font-family="'Syne','Arial Black',sans-serif" font-size="30" font-weight="800" letter-spacing="0">
+        <tspan x="54" y="36" fill="#f5f2ee">A</tspan><tspan fill="#f5f2ee">U</tspan><tspan fill="#ff3d00">N</tspan><tspan fill="#f5f2ee">O</tspan><tspan fill="#f5f2ee">V</tspan><tspan fill="#f5f2ee">A</tspan>
+      </text>
+      <rect x="55" y="42" width="200" height="1" rx="0.5" fill="rgba(255,255,255,0.06)"/>
+      <text x="55" y="54" font-family="'DM Sans','Arial',sans-serif" font-size="10" font-weight="400" letter-spacing="0.28em" fill="#6b6560">GROWTH AGENCY</text>
+    </svg>
+  </a>
   <ul class="nav-links">
     <li><a href="#problem">The Problem</a></li>
     <li><a href="#system">Our System</a></li>
@@ -479,6 +555,9 @@
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#cta" class="nav-cta">Book a Call</a></li>
   </ul>
+  <button class="nav-hamburger" id="hamburger" onclick="toggleMobile()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -502,24 +581,18 @@
       <a href="#cta" class="btn-primary">Get Your Free Growth Plan</a>
       <a href="#results" class="btn-secondary">See What We've Built →</a>
     </div>
+    <div class="hero-stats-mobile">
+      <div class="stat-card"><div class="stat-num">$80M+</div><div class="stat-label">Revenue Driven</div></div>
+      <div class="stat-card"><div class="stat-num">800+</div><div class="stat-label">Active Creators</div></div>
+      <div class="stat-card"><div class="stat-num">40+</div><div class="stat-label">Brands Grown</div></div>
+      <div class="stat-card"><div class="stat-num">90 Days</div><div class="stat-label">Avg. Time to Scale</div></div>
+    </div>
   </div>
   <div class="hero-right">
-    <div class="stat-card">
-      <div class="stat-num">$80M+</div>
-      <div class="stat-label">Revenue Driven</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">800+</div>
-      <div class="stat-label">Active Creators</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">40+</div>
-      <div class="stat-label">Brands Grown</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">90 Days</div>
-      <div class="stat-label">Avg. Time to Scale</div>
-    </div>
+    <div class="stat-card"><div class="stat-num">$80M+</div><div class="stat-label">Revenue Driven</div></div>
+    <div class="stat-card"><div class="stat-num">800+</div><div class="stat-label">Active Creators</div></div>
+    <div class="stat-card"><div class="stat-num">40+</div><div class="stat-label">Brands Grown</div></div>
+    <div class="stat-card"><div class="stat-num">90 Days</div><div class="stat-label">Avg. Time to Scale</div></div>
   </div>
 </section>
 
@@ -548,7 +621,6 @@
   <div class="section-label">The Problem</div>
   <h2>Where Most Brands Hit a Wall</h2>
   <p class="section-desc">Scaling creator commerce isn't complicated — but most brands are solving the wrong problems with the wrong partners.</p>
-
   <div class="problems-grid">
     <div class="problem-card reveal">
       <div class="problem-num">01</div>
@@ -576,7 +648,6 @@
   <div class="section-label">How We Work</div>
   <h2>The Aunova Growth Framework</h2>
   <p class="section-desc">A three-phase engine built to take your brand from unknown to unmissable — with data guiding every decision.</p>
-
   <div class="steps-container">
     <div class="step-row reveal">
       <div class="step-num">01</div>
@@ -622,7 +693,6 @@
   <div class="section-label">Client Wins</div>
   <h2>Numbers That Speak for Themselves</h2>
   <p class="section-desc">A snapshot of what happens when the right creators meet the right strategy — and neither blinks.</p>
-
   <div class="results-grid">
     <div class="result-card reveal">
       <div class="result-logo">N</div>
@@ -630,18 +700,9 @@
       <div class="result-title">NovaSkin</div>
       <p class="result-desc">A skincare brand with strong offline presence but zero creator traction. We rebuilt their content identity from scratch, matching them with skincare-specific creators whose audiences were already primed to buy.</p>
       <div class="result-stats">
-        <div class="result-stat">
-          <div class="result-stat-val">$4.2M</div>
-          <div class="result-stat-label">Revenue Generated</div>
-        </div>
-        <div class="result-stat">
-          <div class="result-stat-val">18x</div>
-          <div class="result-stat-label">Growth Multiplier</div>
-        </div>
-        <div class="result-stat">
-          <div class="result-stat-val">#2</div>
-          <div class="result-stat-label">Skincare Ranking</div>
-        </div>
+        <div class="result-stat"><div class="result-stat-val">$4.2M</div><div class="result-stat-label">Revenue Generated</div></div>
+        <div class="result-stat"><div class="result-stat-val">18x</div><div class="result-stat-label">Growth Multiplier</div></div>
+        <div class="result-stat"><div class="result-stat-val">#2</div><div class="result-stat-label">Skincare Ranking</div></div>
       </div>
     </div>
     <div class="result-card reveal reveal-delay-1">
@@ -650,18 +711,9 @@
       <div class="result-title">Velo Active</div>
       <p class="result-desc">A fitness supplement brand stuck on paid ads with shrinking margins. We pivoted them to a creator-first model, activating 30 performance creators whose authentic storytelling did what ads never could.</p>
       <div class="result-stats">
-        <div class="result-stat">
-          <div class="result-stat-val">$9.8M</div>
-          <div class="result-stat-label">Total Revenue</div>
-        </div>
-        <div class="result-stat">
-          <div class="result-stat-val">#4</div>
-          <div class="result-stat-label">Fitness Category</div>
-        </div>
-        <div class="result-stat">
-          <div class="result-stat-val">142x</div>
-          <div class="result-stat-label">Revenue Increase</div>
-        </div>
+        <div class="result-stat"><div class="result-stat-val">$9.8M</div><div class="result-stat-label">Total Revenue</div></div>
+        <div class="result-stat"><div class="result-stat-val">#4</div><div class="result-stat-label">Fitness Category</div></div>
+        <div class="result-stat"><div class="result-stat-val">142x</div><div class="result-stat-label">Revenue Increase</div></div>
       </div>
     </div>
     <div class="result-card reveal reveal-delay-2">
@@ -670,14 +722,8 @@
       <div class="result-title">Lumé Home</div>
       <p class="result-desc">A home goods brand with good products but zero content differentiation. We identified three untapped content angles, deployed 22 lifestyle creators, and watched their monthly revenue multiply 25x inside 4 months.</p>
       <div class="result-stats">
-        <div class="result-stat">
-          <div class="result-stat-val">$1.9M</div>
-          <div class="result-stat-label">In 4 Months</div>
-        </div>
-        <div class="result-stat">
-          <div class="result-stat-val">25x</div>
-          <div class="result-stat-label">Revenue Growth</div>
-        </div>
+        <div class="result-stat"><div class="result-stat-val">$1.9M</div><div class="result-stat-label">In 4 Months</div></div>
+        <div class="result-stat"><div class="result-stat-val">25x</div><div class="result-stat-label">Revenue Growth</div></div>
       </div>
     </div>
   </div>
@@ -688,7 +734,6 @@
   <div class="section-label">The Aunova Difference</div>
   <h2>Not Just Another Agency</h2>
   <p class="section-desc">Most agencies sell you a retainer. We sell you outcomes — and we build the machine to deliver them.</p>
-
   <div class="compare-grid reveal">
     <div class="compare-col">
       <div class="compare-header them">❌ The Typical Agency</div>
@@ -717,7 +762,70 @@
     <div class="section-label" style="justify-content:center">Let's Talk</div>
     <h2>Your Next Revenue<br>Channel is Waiting</h2>
     <p class="section-desc">Book a free 30-minute call. We'll show you exactly what's possible for your brand — no fluff, no pressure.</p>
-    <a href="#" class="btn-primary" style="font-size:16px;padding:20px 52px">Claim Your Free Growth Call →</a>
+
+    <!-- BOOKING FORM — Netlify handles the backend automatically -->
+    <form
+      name="book-a-call"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      class="booking-form reveal"
+      id="bookingForm"
+    >
+      <!-- Required by Netlify -->
+      <input type="hidden" name="form-name" value="book-a-call">
+      <!-- Spam protection -->
+      <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="first-name">First Name</label>
+          <input class="form-input" type="text" id="first-name" name="first-name" placeholder="John" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="last-name">Last Name</label>
+          <input class="form-input" type="text" id="last-name" name="last-name" placeholder="Smith" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <input class="form-input" type="email" id="email" name="email" placeholder="john@yourbrand.com" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="brand">Brand / Company Name</label>
+        <input class="form-input" type="text" id="brand" name="brand" placeholder="Your Brand Name" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="revenue">Monthly Revenue (approx.)</label>
+        <select class="form-select" id="revenue" name="revenue" required>
+          <option value="" disabled selected>Select a range</option>
+          <option value="under-10k">Under $10K / month</option>
+          <option value="10k-50k">$10K – $50K / month</option>
+          <option value="50k-200k">$50K – $200K / month</option>
+          <option value="200k-plus">$200K+ / month</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="challenge">What's your biggest challenge right now?</label>
+        <textarea class="form-textarea" id="challenge" name="challenge" placeholder="Tell us briefly — we read every submission..."></textarea>
+      </div>
+
+      <button type="submit" class="form-submit">
+        Claim Your Free Growth Call →
+      </button>
+    </form>
+
+    <!-- SUCCESS MESSAGE shown after form submit -->
+    <div class="form-success" id="formSuccess">
+      <div class="form-success-icon">🎯</div>
+      <h3>You're on the list.</h3>
+      <p>We'll review your details and reach out within 24 hours to schedule your free 30-minute growth call. Keep an eye on your inbox.</p>
+    </div>
+
     <div class="cta-features">
       <div class="cta-feat">Full review of your current creator presence</div>
       <div class="cta-feat">Category & competitor landscape breakdown</div>
@@ -761,7 +869,19 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">AUNOVA<span>.</span></div>
+  <div class="footer-logo-wrap">
+    <svg width="160" height="30" viewBox="0 0 300 58">
+      <circle cx="23" cy="26" r="18" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+      <ellipse cx="23" cy="26" rx="18" ry="7" fill="none" stroke="rgba(255,61,0,0.45)" stroke-width="1.5" transform="rotate(-32 23 26)"/>
+      <circle cx="23" cy="26" r="4.5" fill="#ff3d00"/>
+      <circle cx="37" cy="13" r="2.8" fill="#ffb800"/>
+      <text font-family="'Syne','Arial Black',sans-serif" font-size="30" font-weight="800" letter-spacing="0">
+        <tspan x="54" y="36" fill="#f5f2ee">A</tspan><tspan fill="#f5f2ee">U</tspan><tspan fill="#ff3d00">N</tspan><tspan fill="#f5f2ee">O</tspan><tspan fill="#f5f2ee">V</tspan><tspan fill="#f5f2ee">A</tspan>
+      </text>
+      <rect x="55" y="42" width="200" height="1" rx="0.5" fill="rgba(255,255,255,0.06)"/>
+      <text x="55" y="54" font-family="'DM Sans','Arial',sans-serif" font-size="10" font-weight="400" letter-spacing="0.28em" fill="#6b6560">GROWTH AGENCY</text>
+    </svg>
+  </div>
   <div class="footer-copy">© 2025 Aunova. All rights reserved.</div>
 </footer>
 
@@ -783,12 +903,54 @@
     requestAnimationFrame(animateRing);
   }
   animateRing();
-  document.querySelectorAll('a, button, .faq-q').forEach(el => {
+  document.querySelectorAll('a, button, .faq-q, input, select, textarea').forEach(el => {
     el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; });
     el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; });
   });
 
-  // FAQ
+  // Mobile menu
+  function toggleMobile() {
+    const menu = document.getElementById('mobileMenu');
+    const btn = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    btn.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  }
+  function closeMobile() {
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Form success state
+  // On Netlify, after submission the page reloads — we detect that via URL param
+  // Locally (file:// or localhost) we show success immediately on submit
+  const bookingForm = document.getElementById('bookingForm');
+  const formSuccess = document.getElementById('formSuccess');
+
+  function showSuccess() {
+    bookingForm.style.display = 'none';
+    formSuccess.classList.add('show');
+  }
+
+  bookingForm.addEventListener('submit', function(e) {
+    const host = window.location.hostname;
+    const isLocal = host === '' || host === 'localhost' || host === '127.0.0.1';
+    if (isLocal) {
+      // Local preview: prevent real submit and just show success
+      e.preventDefault();
+      showSuccess();
+    }
+    // On Netlify: real POST fires, Netlify processes it, page reloads with ?success=true
+  });
+
+  // Detect Netlify post-submit redirect
+  if (window.location.search.includes('success=true')) {
+    document.getElementById('cta').scrollIntoView({ behavior: 'smooth' });
+    showSuccess();
+  }
+
+  // FAQ accordion
   document.querySelectorAll('.faq-item').forEach(item => {
     item.querySelector('.faq-q').addEventListener('click', () => {
       const isOpen = item.classList.contains('open');
@@ -803,9 +965,13 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  // Nav shrink
+  // Nav shrink on scroll
   window.addEventListener('scroll', () => {
-    document.querySelector('nav').style.padding = window.scrollY > 60 ? '16px 60px' : '24px 60px';
+    const nav = document.querySelector('nav');
+    const isMobile = window.innerWidth <= 768;
+    nav.style.padding = window.scrollY > 60
+      ? (isMobile ? '12px 24px' : '14px 60px')
+      : (isMobile ? '16px 24px' : '20px 60px');
   });
 </script>
 </body>
