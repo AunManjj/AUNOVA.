@@ -763,24 +763,13 @@
     <h2>Your Next Revenue<br>Channel is Waiting</h2>
     <p class="section-desc">Book a free 30-minute call. We'll show you exactly what's possible for your brand — no fluff, no pressure.</p>
 
-    <!-- BOOKING FORM — Netlify handles the backend automatically -->
-   <!-- modify this form HTML and place wherever you want your form -->
-<form
-  action="https://formspree.io/f/xvzwvall"
-  method="POST"
->
-  <label>
-    Your email:
-    <input type="email" name="email">
-  </label>
-  <label>
-    Your message:
-    <textarea name="message"></textarea>
-  </label>
-  <!-- your other form fields go here -->
-  <button type="submit">Send</button>
-</form>
-     
+    <!-- BOOKING FORM — Formspree handles submissions, sends to your email -->
+    <form
+      action="https://formspree.io/f/xvzwvall"
+      method="POST"
+      class="booking-form reveal"
+      id="bookingForm"
+    >
 
       <div class="form-row">
         <div class="form-group">
@@ -927,9 +916,7 @@
     document.body.style.overflow = '';
   }
 
-  // Form success state
-  // On Netlify, after submission the page reloads — we detect that via URL param
-  // Locally (file:// or localhost) we show success immediately on submit
+  // Form — Formspree AJAX submission (no page redirect, stays on site)
   const bookingForm = document.getElementById('bookingForm');
   const formSuccess = document.getElementById('formSuccess');
 
@@ -938,22 +925,30 @@
     formSuccess.classList.add('show');
   }
 
-  bookingForm.addEventListener('submit', function(e) {
-    const host = window.location.hostname;
-    const isLocal = host === '' || host === 'localhost' || host === '127.0.0.1';
-    if (isLocal) {
-      // Local preview: prevent real submit and just show success
-      e.preventDefault();
-      showSuccess();
-    }
-    // On Netlify: real POST fires, Netlify processes it, page reloads with ?success=true
-  });
+  bookingForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const submitBtn = bookingForm.querySelector('.form-submit');
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
 
-  // Detect Netlify post-submit redirect
-  if (window.location.search.includes('success=true')) {
-    document.getElementById('cta').scrollIntoView({ behavior: 'smooth' });
-    showSuccess();
-  }
+    const data = new FormData(bookingForm);
+    try {
+      const response = await fetch(bookingForm.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        showSuccess();
+      } else {
+        submitBtn.textContent = 'Something went wrong — try again';
+        submitBtn.disabled = false;
+      }
+    } catch (err) {
+      submitBtn.textContent = 'Something went wrong — try again';
+      submitBtn.disabled = false;
+    }
+  });
 
   // FAQ accordion
   document.querySelectorAll('.faq-item').forEach(item => {
