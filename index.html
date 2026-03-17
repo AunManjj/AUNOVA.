@@ -764,18 +764,23 @@
     <p class="section-desc">Book a free 30-minute call. We'll show you exactly what's possible for your brand — no fluff, no pressure.</p>
 
     <!-- BOOKING FORM — Netlify handles the backend automatically -->
-    <form
-      name="book-a-call"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      class="booking-form reveal"
-      id="bookingForm"
-    >
-      <!-- Required by Netlify -->
-      <input type="hidden" name="form-name" value="book-a-call">
-      <!-- Spam protection -->
-      <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+   <!-- modify this form HTML and place wherever you want your form -->
+<form
+  action="https://formspree.io/f/xvzwvall"
+  method="POST"
+>
+  <label>
+    Your email:
+    <input type="email" name="email">
+  </label>
+  <label>
+    Your message:
+    <textarea name="message"></textarea>
+  </label>
+  <!-- your other form fields go here -->
+  <button type="submit">Send</button>
+</form>
+     
 
       <div class="form-row">
         <div class="form-group">
